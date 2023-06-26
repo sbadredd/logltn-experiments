@@ -1,0 +1,83 @@
+#####################
+# TRAINING PROTOCOL #
+#####################
+
+# We define an epoch as a set of training iterations after which we log
+# the training and testing performance of the algorithm
+epochs : 10
+
+# Number of training steps (gradients updated for a minibatch) per epoch
+training_steps_per_epoch : 100
+
+##################
+# DATASET CONFIG #
+##################
+minibatch_size : 32
+shuffle_buffer_size : 10000
+test_minibatch_size : 256
+
+################
+# PRIOR CONFIG #
+################
+# Use the mereological rules for semi-supervision
+with_mereological_axioms : true
+
+# Axioms that add class entropy
+with_clustering_axioms: false
+
+# pretrain with groundtruth examples only
+epochs_of_pretraining: 1
+
+###############
+# DATA CONFIG #
+###############
+
+# Minimum pixel width and height of the bounding boxes
+bounding_box_minimal_size : 6
+
+# Which types of the data to use. The IJCAI2017 paper is written using indoor. Options: 'all', 'indoor', 'vehicle', 'animal'
+data_category : "all"
+
+# The ratio of the split between labeled and unlabeled training picture data.
+labeled_ratio : 0.05
+
+# Used to choose the split of the data
+random_seed : 1302
+
+# Options: 'float32', 'float64'
+float_dtype : "float32"
+
+################
+# MODEL CONFIG #
+################
+# Layer sizes of the MLP used to compute partof
+partof_hidden_layer_sizes : [512,256,256,128,128]
+# Layer sized of the MLP used to compute types
+types_hidden_layer_sizes : [512,256,256,128,128]
+
+
+##############
+# LTN CONFIG #
+##############
+# Configuration to use. Options: 'stable_rl', 'prod_rl', 'log_ltn', 'log_ltn_sum', 'log_ltn_lse', 'log_ltn_max'
+ltn_config : "log_ltn"
+
+## STABLE PRODUCT CONFIG ##
+# Schedule the parameter p of the existential quantifier. Options: 'None', 'linear', 'square', 'exponential'
+schedule_p_existential_quantifier: "linear"
+## If schedule: what are the minimum and maximum value.
+min_p_existential_quantifier: 1
+max_p_existential_quantifier: 5
+## If no schedule
+p_existential_quantifier: 5
+# Parameter p of the universal quantifier
+p_universal_quantifier: 6
+
+## LOG LTN CONFIG ##
+# Schedule the parameter alpha of the existential quantifier. Options: 'None', 'linear', 'square', 'exponential'
+schedule_a_existential_quantifier: "linear"
+## If schedule: what are the minimum and maximum value.
+min_a_existential_quantifier: 1
+max_a_existential_quantifier: 5
+## If no schedule
+a_existential_quantifier: 1
